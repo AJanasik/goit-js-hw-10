@@ -6,12 +6,12 @@ import debounce from 'lodash.debounce';
 const DEBOUNCE_DELAY = 300;
 
 const input = document.getElementById('search-box');
-const listCountry = document.querySelector('.country-list');
-const infoCountry = document.querySelector('.country-info');
+const countryListEl = document.querySelector('.country-list');
+const countryInfoEl = document.querySelector('.country-info');
 
 const inputClean = () => {
-  listCountry.innerHTML = '';
-  infoCountry.innerHTML = '';
+  countryListEl.innerHTML = '';
+  countryInfoEl.innerHTML = '';
 };
 
 input.addEventListener(
@@ -29,7 +29,7 @@ input.addEventListener(
       );
       inputClean();
     } else {
-      listCountry.innerHTML = countries
+      countryListEl.innerHTML = countries
         .map(
           country =>
             `<li class="inline-item"> <img src="${country.flags.svg}" width="50" height="30" alt ="Flag of ${country.name.official}"/> <p><b>${country.name.official}</b></p></li>`
@@ -38,7 +38,7 @@ input.addEventListener(
     }
     if (countries.length === 1) {
       inputClean();
-      infoCountry.innerHTML = countries
+      countryInfoEl.innerHTML = countries
         .map(
           country =>
             `<li class="country-info"> <img src="${
