@@ -14,6 +14,8 @@ const inputClean = () => {
   countryInfoEl.innerHTML = '';
 };
 
+let notificationShown = false;
+
 input.addEventListener(
   'input',
   debounce(async event => {
@@ -22,13 +24,21 @@ input.addEventListener(
       inputClean();
       return;
     }
+
     const countries = await fetchCountries(name);
-    if (countries.length > 10) {
+
+    inputClean();
+
+    if (countries.length > 10 && !notificationShown) {
       Notiflix.Notify.info(
         'Too many matches found. Please enter a more specific name.'
       );
-      inputClean();
-    } else {
+      notificationShown = true;
+    } else if (countries.length <= 10 && notificationShown) {
+      notificationShown = false;
+    }
+
+    if (countries.length <= 10) {
       countryListEl.innerHTML = countries
         .map(
           country =>
@@ -36,8 +46,8 @@ input.addEventListener(
         )
         .join('');
     }
+
     if (countries.length === 1) {
-      inputClean();
       countryInfoEl.innerHTML = countries
         .map(
           country =>
